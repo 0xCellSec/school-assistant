@@ -3,11 +3,14 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-
-
-
 class Classroom:
-    def fetch_classes_and_classId(cred: Credentials) -> dict:
+    def is_class_allowed(self, course_name: str):
+        allowed_courses = []
+        if course_name in allowed_courses:
+            return True
+        return False
+    
+    def fetch_classes_and_classId(self, cred: Credentials) -> dict:
         data = {}
         try:
             service = build("classroom", "v1", credentials=cred)
@@ -20,10 +23,11 @@ class Classroom:
             print("Courses:")
 
             for course in courses:
-                print(course["name"], course["id"])
-                data[course["name"]] = course["id"]
+                if self.is_class_allowed(course["name"]):
+                    print(course["name"], course["id"])
+                    data[course["name"]] = course["id"]
 
-            print(data)
+                    print(data)
 
         except(HttpError):
             print("httperror")
