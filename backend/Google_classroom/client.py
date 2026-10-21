@@ -32,7 +32,8 @@ class ClientInterface():
 if __name__ == "__main__":
     work  = CourseWork()
     cred = ClientInterface.fetch_credits()
-    classes: dict[str : int] = Classroom.fetch_classes_and_classId(cred)
+    classroom = Classroom()
+    classes: dict[str : int] = classroom.fetch_classes_and_classId(cred)
     for key, value in classes.items():
-        print(f"\n{key.upper()}")
+        print(f"\n{key}")
         work.fetch_assignments(cred, value)
