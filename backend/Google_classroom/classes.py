@@ -12,7 +12,7 @@ class Classroom:
             return True
         return False
     
-    def fetch_classes_and_classId(self, cred: Credentials) -> dict:
+    def fetch_classes_and_classId(self, cred: Credentials) -> dict[str : int]:
         data = {}
         try:
             service = build("classroom", "v1", credentials=cred)
