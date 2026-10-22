@@ -14,10 +14,11 @@ CREATE TABLE IF NOT EXISTS Courses (
 
 CREATE TABLE IF NOT EXISTS CourseWork (
     work_id      TEXT NOT NULL UNIQUE,
+    course_id    TEXT NOT NULL, 
     title        TEXT NOT NULL,
     due_date     TEXT NOT NULL,
     status       TEXT NOT NULL,
-    FOREIGN KEY (course_id) REFERENCES Courses(id)
+    FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
 
 """
