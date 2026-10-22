@@ -20,16 +20,11 @@ class Classroom:
             courses = results.get("courses", [])
         
             if not courses:
-                print("NONE")
                 return
-            print("Courses:")
 
             for course in courses:
                 if self.is_class_allowed(course["name"]):
-                    print(course["name"], course["id"])
                     data[course["name"]] = course["id"]
-
-                    print(data)
 
         except(HttpError):
             print("httperror")
