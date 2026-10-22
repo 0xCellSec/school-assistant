@@ -25,7 +25,7 @@ class CourseWork:
 
         assignments_dict = []
         due_date = None
-        status = None
+        status = "NOT TURNED IN"
         for i, item in enumerate(assignments):
             assignment_id  = assignments[i]["id"]
             title = assignments[i]["title"]
