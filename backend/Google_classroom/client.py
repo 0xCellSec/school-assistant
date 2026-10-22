@@ -30,10 +30,13 @@ class ClientInterface():
 
         return creds
 if __name__ == "__main__":
+    cache = {}
     work  = CourseWork()
     cred = ClientInterface.fetch_credits()
     classroom = Classroom()
     classes: dict[str : int] = classroom.fetch_classes_and_classId(cred)
     for key, value in classes.items():
-        print(f"\n{key}")
-        work.fetch_assignments(cred, value)
+        all_assignments = work.fetch_assignments(cred, value)
+        cache[key] = all_assignments
+
+    print(cache)
