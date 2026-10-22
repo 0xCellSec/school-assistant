@@ -17,29 +17,33 @@ class CourseWork:
         return False
 
 
-    def fetch_assignments(self, cred: Credentials, id) -> list:
+    def fetch_assignments(self, cred: Credentials, id) -> dict:
         
         service = build("classroom", "v1", credentials=cred)
         results = service.courses().courseWork().list(courseId=id).execute()
         assignments = results.get("courseWork", [])
 
-        
+        assignments_dict = []
+        due_date = None
+        status = None
         for i, item in enumerate(assignments):
             assignment_id  = assignments[i]["id"]
             title = assignments[i]["title"]
 
             if self.is_assignment_turned_in(cred, id, assignment_id):
-                print(title, "TURNED IN")
+                status = "TURNED IN"
                 return
 
             try: 
                 due_date = assignments[0]["dueDate"]
             except(KeyError):
                 due_date = "No Due Date"
-            
-            print(title, due_date)
-            if not assignments:
-                print("NONE")
-                return
 
+            
+            assignments_dict.append({"id": assignment_id, "title": title, "due_date": due_date})
+
+            if not assignments:
+                return
+        
+        return assignments_dict
         
