@@ -4,8 +4,9 @@ from telebot.async_telebot import AsyncTeleBot
 from backend.Google_classroom.client import ClientInterface
 from backend.Google_classroom.assignments import CourseWork
 from backend.Google_classroom.classes import Classroom
+from backend.core.settings import Config
 
-bot = AsyncTeleBot()
+bot = AsyncTeleBot(Config.telegram_bot_key)
 
 work  = CourseWork()
 classroom = Classroom()
@@ -17,13 +18,13 @@ async def send_tasks(message):
     cred = ClientInterface.fetch_credits()
     classroom = Classroom()
     classes: dict[str : int] = classroom.fetch_classes_and_classId(cred)
-    text = ""
     for key, value in classes.items():
             all_assignments = work.fetch_assignments(cred, value)
             cache[key] = all_assignments
     
 
     for class_name, assignments in cache.items():
+        text = ""
         if assignments is None:
             continue
 
@@ -32,6 +33,6 @@ async def send_tasks(message):
         for assignment in assignments:
             text += f"• {assignment['title']}\n"
 
-    await bot.reply_to(message, text)
+        await bot.reply_to(message, text)
 
 asyncio.run(bot.polling())
