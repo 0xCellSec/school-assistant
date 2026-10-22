@@ -3,9 +3,11 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+from backend.core.settings import Config
+
 class Classroom:
     def is_class_allowed(self, course_name: str):
-        allowed_courses = []
+        allowed_courses: list = Config.allowed_courses
         if course_name in allowed_courses:
             return True
         return False
