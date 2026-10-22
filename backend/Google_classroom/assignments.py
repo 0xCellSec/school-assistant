@@ -40,7 +40,7 @@ class CourseWork:
                 due_date = "No Due Date"
 
             
-            assignments_dict.append({"id": assignment_id, "title": title, "due_date": due_date})
+            assignments_dict.append({"id": assignment_id, "title": title, "due_date": due_date, "status": status})
 
             if not assignments:
                 return
