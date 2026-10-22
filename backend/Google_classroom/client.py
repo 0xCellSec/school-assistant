@@ -29,7 +29,7 @@ class ClientInterface():
                 token.write(creds.to_json())
 
         return creds
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     cache = {}
     work  = CourseWork()
     cred = ClientInterface.fetch_credits()
@@ -39,4 +39,4 @@ if __name__ == "__main__":
         all_assignments = work.fetch_assignments(cred, value)
         cache[key] = all_assignments
 
-    print(cache)
+    print(cache)"""
