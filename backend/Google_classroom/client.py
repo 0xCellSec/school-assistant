@@ -45,7 +45,7 @@ class ClientInterface():
             for course_name, course_id in classes.items():
                 all_assignments = work.fetch_assignments(cred, course_id)
                 await db.execute(""" INSERT INTO Courses(course_id, course_name) 
-                                    VALUES(?, ?)""", (course_id, course_name)) 
+                                    VALUES(?, ?) ON CONFLICT(course_id) DO NOTHING""", (course_id, course_name)) 
 
                 if not all_assignments:
                     continue
@@ -53,7 +53,7 @@ class ClientInterface():
                 for assignment in all_assignments:
                     await db.execute("""
                         INSERT INTO CourseWork(work_id, course_id, title, due_date, status) 
-                        VALUES(?, ?, ?, ?, ?)
+                        VALUES(?, ?, ?, ?, ?) ON CONFLICT(work_id) DO NOTHING
                     """, 
                     (str(assignment["id"]),
                      str(course_id), 
