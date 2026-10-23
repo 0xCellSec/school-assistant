@@ -49,4 +49,8 @@ async def send_tasks(message):
                     print(text)
                     await bot.reply_to(message, text)
 
-asyncio.run(bot.polling())
+
+async def start():
+    await asyncio.gather(bot.polling(), ClientInterface.init_cache())
+
+asyncio.run(start())
