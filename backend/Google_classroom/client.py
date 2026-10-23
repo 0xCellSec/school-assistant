@@ -52,11 +52,11 @@ class ClientInterface():
                         INSERT INTO CourseWork(work_id, course_id, title, due_date, status) 
                         VALUES(?, ?, ?, ?, ?)
                     """, 
-                    (assignment["id"],
-                     course_id, 
-                     assignment["title"], 
-                     assignment["due_date"], 
-                     assignment["status"]))
+                    (str(assignment["id"]),
+                     str(course_id), 
+                     str(assignment["title"]), 
+                     str(assignment["due_date"]), 
+                     str(assignment["status"])))
             
             await db.commit
 
