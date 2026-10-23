@@ -62,6 +62,7 @@ class ClientInterface():
                      str(assignment["status"])))
             
             await db.commit()
+            print("DATABASE CAHCE STARTUP COMPLETE")
             return
 
 
