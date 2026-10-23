@@ -2,14 +2,13 @@ import asyncio
 from telebot.async_telebot import AsyncTeleBot
 
 from backend.Google_classroom.client import ClientInterface
-from backend.Google_classroom.assignments import CourseWork
-from backend.Google_classroom.classes import Classroom
+
 from backend.core.settings import Config
+
 
 bot = AsyncTeleBot(Config.telegram_bot_key)
 
-work  = CourseWork()
-classroom = Classroom()
+
 
 @bot.message_handler(commands=["tasks"])
 async def send_tasks(message):
