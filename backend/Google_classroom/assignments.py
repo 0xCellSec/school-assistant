@@ -37,7 +37,7 @@ class CourseWork:
                 return
 
             try: 
-                due_date = assignments[0]["dueDate"]
+                due_date = assignments[i]["dueDate"]
             except(KeyError):
                 due_date = "No Due Date"
 
