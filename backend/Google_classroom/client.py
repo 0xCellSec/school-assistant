@@ -47,6 +47,9 @@ class ClientInterface():
                 await db.execute(""" INSERT INTO Courses(course_id, course_name) 
                                     VALUES(?, ?)""", (course_id, course_name)) 
 
+                if not all_assignments:
+                    continue
+
                 for assignment in all_assignments:
                     await db.execute("""
                         INSERT INTO CourseWork(work_id, course_id, title, due_date, status) 
