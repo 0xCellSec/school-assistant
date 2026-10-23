@@ -58,7 +58,8 @@ class ClientInterface():
                      str(assignment["due_date"]), 
                      str(assignment["status"])))
             
-            await db.commit
+            await db.commit()
+            return
 
 
 """if __name__ == "__main__":
