@@ -44,8 +44,6 @@ class CourseWork:
             
             assignments_dict.append({"id": assignment_id, "title": title, "due_date": due_date, "status": status})
 
-            if not assignments:
-                return
         
         return assignments_dict
         
