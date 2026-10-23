@@ -9,7 +9,7 @@ DATABASE_PATH = Config.database_file_path
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS Courses (
     course_id   TEXT PRIMARY KEY,
-    course_name TEXT NOT NULL,
+    course_name TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS CourseWork (
