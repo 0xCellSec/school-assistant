@@ -28,6 +28,7 @@ class CourseWork:
         if not assignments:
             return
         for i, item in enumerate(assignments):
+            status = "NOT TURNED IN"
             assignment_id  = assignments[i]["id"]
             title = assignments[i]["title"]
 
