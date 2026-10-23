@@ -13,26 +13,40 @@ classroom = Classroom()
 
 @bot.message_handler(commands=["tasks"])
 async def send_tasks(message):
-    cache = {}
-    work  = CourseWork()
-    cred = ClientInterface.fetch_credits()
-    classroom = Classroom()
-    classes: dict[str : int] = classroom.fetch_classes_and_classId(cred)
-    for key, value in classes.items():
-            all_assignments = work.fetch_assignments(cred, value)
-            cache[key] = all_assignments
+    async with aiosqlite.connect(Config.database_file_path) as db:
+                courses = await db.execute_fetchall(
+                """
+                    SELECT * FROM Courses
+                """, 
+                )
     
-
-    for class_name, assignments in cache.items():
-        text = ""
-        if assignments is None:
-            continue
-
-        text += f"\n{class_name}\n"
-
-        for assignment in assignments:
-            text += f"• {assignment['title']}\n"
-
-        await bot.reply_to(message, text)
+    
+                print(f"COURSES: {courses}")
+                for course_id, course_name in courses: # every tuple in list
+                    text = ""
+                    print(f"{course_id} - {course_name}\n")
+                    assignments = await db.execute_fetchall(
+                        """ SELECT * FROM CourseWork WHERE course_id = ? AND status = 'NOT TURNED IN'""", 
+                        [course_id, ]
+                    )
+                    if assignments is None:
+                        continue
+                    text += f"\n{course_name}\n"
+    
+                    for assignment in assignments:
+                        if assignment[3] != "No Due Date":
+                            due_date_dict = ast.literal_eval(assignment[3])
+                            due_date = f"{due_date_dict['day']}-{due_date_dict['month']}-{due_date_dict['year']}"
+    
+                        else: 
+                             due_date = "None"
+    
+                        text += f"• {assignment[2]} DUE: {due_date}\n"
+    
+                        if not text:
+                            print("text error")
+    
+                    print(text)
+                    await bot.reply_to(message, text)
 
 asyncio.run(bot.polling())
