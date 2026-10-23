@@ -34,7 +34,6 @@ class CourseWork:
 
             if self.is_assignment_turned_in(cred, id, assignment_id):
                 status = "TURNED IN"
-                return
 
             try: 
                 due_date = assignments[i]["dueDate"]
