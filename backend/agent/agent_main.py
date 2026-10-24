@@ -1,6 +1,7 @@
 import asyncio 
 import aiosqlite
 import ast
+from datetime import datetime
 from telebot.async_telebot import AsyncTeleBot
 
 from backend.Google_classroom.client import ClientInterface
@@ -27,7 +28,7 @@ async def send_tasks(message):
                     text = ""
                     print(f"{course_id} - {course_name}\n")
                     assignments = await db.execute_fetchall(
-                        """ SELECT * FROM CourseWork WHERE course_id = ? AND status = 'NOT TURNED IN'""", 
+                        """ SELECT * FROM CourseWork WHERE course_id = ? AND status = 'NOT TURNED IN' AND due_date != 'No Due Date'""", 
                         [course_id, ]
                     )
                     if assignments is None:
@@ -37,8 +38,13 @@ async def send_tasks(message):
                     for assignment in assignments:
                         if assignment[3] != "No Due Date":
                             due_date_dict = ast.literal_eval(assignment[3])
+                            due = datetime(due_date_dict['year'], due_date_dict['month'], due_date_dict['day'])
+
+                            if due.date() < datetime.now().date():
+                                continue
+                            
                             due_date = f"{due_date_dict['day']}-{due_date_dict['month']}-{due_date_dict['year']}"
-    
+
                         else: 
                              due_date = "None"
     
