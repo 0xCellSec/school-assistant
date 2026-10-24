@@ -32,6 +32,11 @@ async def test_cache_fetching():
                 for assignment in assignments:
                     if assignment[3] != "No Due Date":
                         due_date_dict = ast.literal_eval(assignment[3])
+                        due = datetime(due_date_dict['year'], due_date_dict['month'], due_date_dict['day'])
+
+                        if due.date() < datetime.now().date():
+                            continue
+                        
                         due_date = f"{due_date_dict['day']}-{due_date_dict['month']}-{due_date_dict['year']}"
 
                     else: 
