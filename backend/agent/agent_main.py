@@ -65,6 +65,10 @@ async def send_tasks(message):
     for text in work_list:
         await bot.reply_to(message, text)
 
+async def send_scheduled_task():
+     work_list = await fetch_work()
+     for text in work_list:                     
+        bot.send_message(text=text)
 
 async def start():
     await asyncio.gather(bot.polling(), ClientInterface.init_cache())
