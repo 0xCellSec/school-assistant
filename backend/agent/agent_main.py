@@ -5,7 +5,7 @@ from datetime import datetime
 from telebot.async_telebot import AsyncTeleBot
 
 from backend.Google_classroom.client import ClientInterface
-
+from backend.core.scheduler import cache_scheduler
 from backend.core.settings import Config
 
 
@@ -42,7 +42,7 @@ async def fetch_work() -> list:
                         continue
                     
                     due_date = f"{due_date_dict['day']}-{due_date_dict['month']}-{due_date_dict['year']}"
-                    
+
                 else: 
                     due_date = "None"
 
@@ -71,6 +71,10 @@ async def send_scheduled_task():
         bot.send_message(text=text)
 
 async def start():
-    await asyncio.gather(bot.polling(), ClientInterface.init_cache())
+    await ClientInterface.init_cache()
+    scheduler_task =  asyncio.create_task(cache_scheduler())
+
+    print("STARTING POLLING")
+    await asyncio.gather(bot.polling())
 
 asyncio.run(start())
