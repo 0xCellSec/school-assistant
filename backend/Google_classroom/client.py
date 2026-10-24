@@ -14,7 +14,7 @@ from backend.core import database
 SCOPES = ["https://www.googleapis.com/auth/classroom.courses.readonly", "https://www.googleapis.com/auth/classroom.coursework.me",]
 
 class ClientInterface():
-    def fetch_credits() -> Credentials:
+    def google_classroom_authorization() -> Credentials:
         creds = None
         if os.path.exists("token.json"):
             creds = Credentials.from_authorized_user_file("token.json", scopes=SCOPES)
@@ -39,7 +39,7 @@ class ClientInterface():
             await db.commit()
 
             work  = CourseWork()
-            cred = ClientInterface.fetch_credits()
+            cred = ClientInterface.google_classroom_authorization()
             classroom = Classroom()
             classes: dict[str : int] = classroom.fetch_classes_and_classId(cred)
             for course_name, course_id in classes.items():
@@ -69,7 +69,7 @@ class ClientInterface():
 """if __name__ == "__main__":
     cache = {}
     work  = CourseWork()
-    cred = ClientInterface.fetch_credits()
+    cred = ClientInterface.google_classroom_authorization()
     classroom = Classroom()
     classes: dict[str : int] = classroom.fetch_classes_and_classId(cred)
     for key, value in classes.items():
