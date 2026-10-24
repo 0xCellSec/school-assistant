@@ -1,6 +1,7 @@
 import os
 import aiosqlite
 
+import yaml
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -8,8 +9,12 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 
 from backend.Google_classroom.classes import Classroom
 from backend.Google_classroom.assignments import CourseWork
-from backend.core.settings import Config
 from backend.core import database
+
+
+with open("config.yaml", "r") as file:
+    Config = yaml.safe_load(file)
+
 
 SCOPES = ["https://www.googleapis.com/auth/classroom.courses.readonly", "https://www.googleapis.com/auth/classroom.coursework.me",]
 
@@ -34,7 +39,7 @@ class ClientInterface():
         return creds
 
     async def init_cache():
-        async with aiosqlite.connect(Config.database_file_path) as db:
+        async with aiosqlite.connect(Config["database_file_path"]) as db:
             await db.executescript(database.SCHEMA)
             await db.commit()
 
