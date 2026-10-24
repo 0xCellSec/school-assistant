@@ -51,5 +51,4 @@ async def cache_scheduler():
             await asyncio.sleep(60)
             continue
 
-        print()
         await asyncio.sleep(60)
