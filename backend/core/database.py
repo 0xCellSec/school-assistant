@@ -1,10 +1,13 @@
 import aiosqlite
+import yaml
 
 from collections.abc import AsyncIterator
-from backend.core.settings import Config
+
+with open("config.yaml", "r") as file:
+    Config = yaml.safe_load(file)
 
 
-DATABASE_PATH = Config.database_file_path
+DATABASE_PATH = Config["database_file_path"]
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS Courses (

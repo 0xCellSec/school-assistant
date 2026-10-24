@@ -4,12 +4,17 @@ import ast
 from datetime import datetime
 from telebot.async_telebot import AsyncTeleBot
 
+import yaml 
+
 from backend.Google_classroom.client import ClientInterface
 from backend.core.scheduler import cache_scheduler
-from backend.core.settings import Config
 
 
-bot = AsyncTeleBot(Config.telegram_bot_key)
+with open("config.yaml", "r") as file:
+    Config = yaml.safe_load(file)
+
+
+bot = AsyncTeleBot(Config["telegram_bot_key"])
 
 async def fetch_work() -> list:
     packed_work = []

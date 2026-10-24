@@ -2,13 +2,18 @@ import asyncio
 import aiosqlite
 from datetime import datetime
 
+import yaml
+
 from backend.Google_classroom.assignments import CourseWork
-from backend.core.settings import Config
 from backend.Google_classroom.client import ClientInterface
 
 
+with open("config.yaml", "r") as file:
+    Config = yaml.safe_load(file)
+
+
 async def update_cache():
-    async with aiosqlite.connect(Config.database_file_path) as db:
+    async with aiosqlite.connect(Config["database_file_path"]) as db:
         await db.commit()
 
         work  = CourseWork()
@@ -45,7 +50,7 @@ async def cache_scheduler():
     while True:
         now = datetime.now()
 
-        if now.hour == Config.time_hour and now.minute == Config.time_min:
+        if now.hour == Config["scheduled_hour"] and now.minute == Config["scheduled_min"]:
             await update_cache()
 
             await asyncio.sleep(60)
