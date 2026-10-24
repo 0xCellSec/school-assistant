@@ -18,7 +18,7 @@ bot = AsyncTeleBot(Config["telegram_bot_key"])
 
 async def fetch_work() -> list:
     packed_work = []
-    async with aiosqlite.connect(Config.database_file_path) as db:
+    async with aiosqlite.connect(Config["database_file_path"]) as db:
         courses = await db.execute_fetchall(
         """
             SELECT * FROM Courses
